@@ -177,9 +177,10 @@ export const generateMorePosts = (startIndex: number, count: number): Post[] => 
   ];
 
   return Array.from({ length: count }).map((_, i) => {
-    const id = (startIndex + i).toString();
+    const idValue = startIndex + i + 100; // Large offset to avoid initial overlaps
+    const id = `gen_${idValue}_${Math.random().toString(36).substr(2, 5)}`;
     return {
-      id: `p${id}`,
+      id,
       username: CHOQUEI_USERNAME,
       userAvatar: CHOQUEI_AVATAR,
       imageUrl: `https://picsum.photos/seed/post${id}/800/${1000 + (Math.random() * 400)}`,
@@ -187,8 +188,8 @@ export const generateMorePosts = (startIndex: number, count: number): Post[] => 
       likes: Math.floor(Math.random() * 100000),
       isVerified: true,
       comments: [
-        { id: `c${id}1`, username: "user_" + id, text: "Uau, inacreditável!" },
-        { id: `c${id}2`, username: "bot_" + id, text: "Isso é a mais pura verdade, eu estava lá!" }
+        { id: `c_${id}_1`, username: "user_" + idValue, text: "Uau, inacreditável!" },
+        { id: `c_${id}_2`, username: "bot_" + idValue, text: "Isso é a mais pura verdade, eu estava lá!" }
       ]
     };
   });

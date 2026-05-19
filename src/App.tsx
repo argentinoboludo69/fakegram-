@@ -8,12 +8,13 @@ export default function App() {
   const [posts, setPosts] = useState<Post[]>(INITIAL_POSTS);
   const [activeStory, setActiveStory] = useState<Story | null>(null);
   const [loading, setLoading] = useState(false);
+  const isLoadingRef = useRef(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loading) {
+        if (entries[0].isIntersecting && !isLoadingRef.current) {
           loadMorePosts();
         }
       },
@@ -29,14 +30,20 @@ export default function App() {
         observer.unobserve(observerTarget.current);
       }
     };
-  }, [loading, posts]);
+  }, []); // Only run once on mount
 
   const loadMorePosts = () => {
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
     setLoading(true);
+
     setTimeout(() => {
-      const newPosts = generateMorePosts(posts.length, 5);
-      setPosts((prev) => [...prev, ...newPosts]);
+      setPosts((prev) => {
+        const newPosts = generateMorePosts(prev.length, 5);
+        return [...prev, ...newPosts];
+      });
       setLoading(false);
+      isLoadingRef.current = false;
     }, 800);
   };
 
