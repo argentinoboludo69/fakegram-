@@ -1,0 +1,6 @@
+{
+  "name": "AbsurdoGram",
+  "description": "Uma rede social satírica focada em notícias absurdas e fake news fictícias com visual moderno.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
